@@ -1,7 +1,7 @@
 # PUFM
 Efficient Point cloud Upsampling via Flow matching
 
- [arXiv](https://arxiv.org/abs/2304.11846)
+ [arXiv](https://arxiv.org/abs/2501.15286)
 
 This is the official PyTorch implementation of our paper "Efficient Point cloud Upsampling via Flow matching".
 
