@@ -6,12 +6,10 @@ import time
 from datetime import datetime
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
-from dataset.dataset import PUDataset, PUDataset_all, PUDataset_test
+from dataset.dataset import PUDataset, PUDataset_test
 from models.diffusion import *
 # from models.diffusion_v2 import *
-from args.pu1k_args_ddpm import parse_pu1k_args
-from args.pugan_args_ddpm import parse_pugan_args
-from args.pu_all_args import parse_pu_all_args
+from args.pufm_args import parse_pc_args
 from args.utils import str2bool
 from models.utils import *
 from torch.cuda.amp import autocast, GradScaler
@@ -22,8 +20,6 @@ from tqdm import tqdm
 import torch.distributions as dist
 from Chamfer3D.dist_chamfer_3D import chamfer_3DDist
 cd_module = chamfer_3DDist()
-import ChamferDistancePytorch.chamfer3D.dist_chamfer_3D, ChamferDistancePytorch.fscore
-chamLoss = ChamferDistancePytorch.chamfer3D.dist_chamfer_3D.chamfer_3DDist()
 from emd_assignment import emd_module
 
 
@@ -70,7 +66,7 @@ def train(args):
 
     # create model 
     logger.info('========== Build Model ==========')
-    model = IndiUnet_v4_v2(args)
+    model = PUFM_w_attn(args)
     model = model.cuda()
     if args.pretrained_path is not None:
         model.load_state_dict(torch.load(args.pretrained_path), strict=False)
@@ -115,7 +111,7 @@ def train(args):
             t = 1 - torch.cos(t * math.pi / 2) 
             alpha = t[:, None, None]
             #================ generate query points =================
-            noise_pts = mid_pts + 0.01 * torch.randn_like(mid_pts) # best one with 0.01
+            noise_pts = mid_pts + 0.01 * torch.randn_like(mid_pts)
             # EMD align
             align_idxs = emd_align(noise_pts, gt_pts)
             align_idxs = align_idxs.detach().long()
@@ -203,7 +199,7 @@ def train(args):
 def parse_train_args():
     parser = argparse.ArgumentParser(description='Training Arguments')
 
-    parser.add_argument('--dataset', default='pugan', type=str, help='pu1k or pugan')
+    parser.add_argument('--dataset', default='pu1k', type=str, help='pu1k or pugan')
     parser.add_argument('--optim', default='adam', type=str, help='optimizer, adam or sgd')
     parser.add_argument('--lr', default=1e-4, type=float, help='learning rate')
     parser.add_argument('--global_sigma', default=1.5, type=float, help='global sampling rate')
@@ -223,11 +219,7 @@ if __name__ == "__main__":
     train_args = parse_train_args()
     assert train_args.dataset in ['pu1k', 'pugan']
 
-    if train_args.dataset == 'pu1k':
-        model_args = parse_pu1k_args()
-    else:
-        model_args = parse_pugan_args()
-        # model_args = parse_pu_all_args()
+    model_args = parse_pc_args()
 
     reset_model_args(train_args, model_args)
 
