@@ -5,7 +5,7 @@ Efficient Point cloud Upsampling via Flow matching
 
 This is the official PyTorch implementation of our paper "Efficient Point cloud Upsampling via Flow matching".
 
-<img src="./p2pnet.png">
+<img src="./fig/network.jpg">
 
 ## Abstract
 
