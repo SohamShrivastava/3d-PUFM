@@ -207,6 +207,7 @@ def parse_test_args():
     parser.add_argument('--save_dir', default='output', type=str, help='save upsampled point cloud')
     parser.add_argument('--truncate_distance', default=True, type=str2bool, help='whether truncate distance')
     parser.add_argument('--up_rate', default=4, type=int, help='upsampling rate')
+    parser.add_argument('--num_points', default=256, type=int, help='the points number of each input patch')
     parser.add_argument('--double_4X', default=False, type=str2bool, help='conduct 4X twice to get 16X')
 
     args = parser.parse_args()
@@ -216,8 +217,4 @@ def parse_test_args():
 if __name__ == "__main__":
     test_args = parse_test_args()
 
-    model_args = parse_pc_args()
-
-    reset_model_args(test_args, model_args)
-
-    test(model_args)
+    test(test_args)
