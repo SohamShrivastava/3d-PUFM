@@ -9,8 +9,6 @@ import random
 from torch.autograd import grad
 from einops import rearrange, repeat
 from sklearn.neighbors import NearestNeighbors
-from models.Chamfer3D.dist_chamfer_3D import chamfer_3DDist
-chamfer_dist = chamfer_3DDist()
 
 
 
