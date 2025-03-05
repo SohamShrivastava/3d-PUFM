@@ -2,6 +2,7 @@
 Efficient Point cloud Upsampling via Flow matching
 
  [arXiv](https://arxiv.org/abs/2501.15286)
+ [![Open PUFM in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12qK4Tu50DnwfrXA1h4cdUt7LWtpBatwN?usp=sharing)<br>
 
 This is the official PyTorch implementation of our paper "Efficient Point cloud Upsampling via Flow matching".
 
