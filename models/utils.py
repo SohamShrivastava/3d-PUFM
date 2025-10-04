@@ -70,7 +70,13 @@ def FPS(pts, fps_pts_num):
 
 def get_knn_pts(k, pts, center_pts, return_idx=False):
     # input: (b, 3, n)
-
+    
+    #ensure batch dimension exists
+    if pts.dim == 2:
+        pts = pts.unsqueeze(0)
+    if center_pts.dim == 2:
+        center_pts = center_pts.unsqueeze(0)  
+    
     # (b, n, 3)
     pts_trans = rearrange(pts, 'b c n -> b n c').contiguous()
     # (b, m, 3)
